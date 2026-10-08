@@ -1,0 +1,28 @@
+﻿@model IEnumerable<StockFlow.Models.Delivery>
+<h1>Deliveries</h1>
+@if (!Model.Any())
+{
+    <p>No deliveries have been recorded yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Supplier</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var delivery in Model)
+            {
+                <tr>
+                    <td>@delivery.DeliveryDate.ToShortDateString()</td>
+                    <td>@delivery.SupplierName</td>
+                    <td>@delivery.Notes</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
