@@ -1,0 +1,40 @@
+﻿@model StockFlow.Models.Delivery
+<h1>Delivery Details</h1>
+<div class="mb-4">
+    <p><strong>Date:</strong> @Model.DeliveryDate.ToShortDateString()</p>
+    <p><strong>Supplier:</strong> @Model.SupplierName</p>
+
+    @if (!string.IsNullOrEmpty(Model.Notes))
+    {
+        <p><strong>Notes:</strong> @Model.Notes</p>
+    }
+</div>
+<h3>Products Delivered</h3>
+
+
+@if (ViewBag.Items.Count == 0)
+{
+    <p>No products were recorded for this delivery.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity Delivered</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Items)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.QuantityDelivered</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Back to Deliveries</a>

@@ -19,6 +19,30 @@ namespace StockFlow.Controllers
             var deliveries = await _context.Deliveries.ToListAsync();
             return View(deliveries);
         }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var delivery = await _context.Deliveries
+                .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (delivery == null)
+            {
+                return NotFound();
+            }
+
+            var items = await _context.DeliveryItems
+                .Include(di => di.Product)
+                .Where(di => di.DeliveryId == id)
+                .ToListAsync();
+
+            ViewBag.Items = items;
+
+            return View(delivery);
+        }
         public async Task<IActionResult> Create()
         {
             var products = await _context.Products.ToListAsync();
