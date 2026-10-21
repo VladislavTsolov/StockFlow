@@ -1,38 +1,59 @@
-﻿@model StockFlow.Models.ViewModels.CreateDeliveryViewModel
-<h1>Record Delivery</h1>
-<form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="DeliveryDate" class="form-label"></label>
-        <input asp-for="DeliveryDate" type="date" class="form-control" />
-    </div>
+﻿@model StockFlow.Models.Product
+@{
+    ViewData["Title"] = "Add Product";
+}
+<div class="mb-4">
+    <p class="text-uppercase fw-semibold mb-1"
+       style="color: #b99aff; letter-spacing: 3px;">
+        Make room on the shelves
+    </p>
+    <h1 class="display-5 fw-bold text-light">Add Product</h1>
+    <p style="color: #c7bfd5;">
+        Every well-managed warehouse starts with knowing what you've got.
+    </p>
+</div>
+<div class="card rounded-4 shadow-sm p-4"
+     style="background-color: #191720; border: 1px solid #30263f; max-width: 700px;">
 
-    <div class="mb-3">
-        <label asp-for="SupplierName" class="form-label"></label>
-        <input asp-for="SupplierName" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Notes" class="form-label"></label>
-        <textarea asp-for="Notes" class="form-control"></textarea>
-    </div>
-
-    <h3>Products</h3>
-
-    @for (int i = 0; i < Model.Products.Count; i++)
-    {
-        <input asp-for="Products[i].ProductId" type="hidden" />
+    <form asp-controller="Products" asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
         <div class="mb-3">
-            <label class="form-label">@Model.Products[i].ProductName</label>
-
-            <input asp-for="Products[i].Quantity"
-                   type="number"
-                   min="0"
-                   class="form-control" />
+            <label asp-for="Name" class="form-label">Product Name</label>
+            <input asp-for="Name" class="form-control" placeholder="e.g. Wireless Keyboard" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-    }
 
-    <button type="submit" class="btn btn-primary">
-        Record Delivery
-    </button>
-</form>
+        <div class="mb-3">
+            <label asp-for="Category" class="form-label">Category</label>
+            <input asp-for="Category" class="form-control" placeholder="e.g. Electronics" />
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label">Unit Price</label>
+            <input asp-for="Price" class="form-control" type="number" step="0.01" min="0.01" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="QuantityInStock" class="form-label">Initial Stock Quantity</label>
+            <input asp-for="QuantityInStock" class="form-control" type="number" min="0" />
+            <span asp-validation-for="QuantityInStock" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn"
+                style="background-color: #8754e8; color: white;">
+            Add Product
+        </button>
+
+        <a asp-controller="Products" asp-action="Index"
+           class="btn btn-outline-secondary ms-2">
+            Cancel
+        </a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

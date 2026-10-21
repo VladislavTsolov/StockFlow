@@ -1,17 +1,56 @@
-﻿@model StockFlow.Models.Product
-<h1>Delete Product</h1>
-<h3>Are you sure you want to permanently delete this product?</h3>
+﻿```cshtml
+@model StockFlow.Models.Product
 
-<div>
-    <p><strong>Name:</strong> @Model.Name</p>
-    <p><strong>Category:</strong> @Model.Category</p>
-    <p><strong>Price:</strong> @Model.Price</p>
-    <p><strong>Quantity:</strong> @Model.QuantityInStock</p>
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<div class="mb-4">
+    <p class="text-uppercase fw-semibold mb-1"
+       style="color: #ff8ca5; letter-spacing: 3px;">
+        Clear it off the shelves
+    </p>
+    <h1 class="display-5 fw-bold text-light">Delete Product</h1>
+    <p style="color: #c7bfd5;">
+        Double-check the details before this product leaves your inventory.
+    </p>
 </div>
 
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="Id" />
+<div class="card rounded-4 shadow-sm p-4"
+     style="background-color: #191720; border: 1px solid #49303e; max-width: 700px;">
 
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+    <div class="mb-4 p-3 rounded-3"
+         style="background-color: #2a1922; border: 1px solid #653448;">
+        <h5 class="mb-1" style="color: #ff8ca5;">Heads up!</h5>
+        <p class="mb-0 text-light">
+            You're about to permanently delete this product. This action cannot be undone.
+        </p>
+    </div>
+
+    <h4 class="text-light mb-3">@Model.Name</h4>
+
+    <dl class="row mb-4">
+        <dt class="col-sm-4" style="color: #c7bfd5;">Category</dt>
+        <dd class="col-sm-8 text-light">@Model.Category</dd>
+
+        <dt class="col-sm-4" style="color: #c7bfd5;">Unit Price</dt>
+        <dd class="col-sm-8 text-light">@Model.Price.ToString("F2")</dd>
+
+        <dt class="col-sm-4" style="color: #c7bfd5;">Stock Quantity</dt>
+        <dd class="col-sm-8 text-light">@Model.QuantityInStock</dd>
+    </dl>
+
+    <form asp-controller="Products" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit" class="btn btn-danger">
+            Delete Product
+        </button>
+
+        <a asp-controller="Products" asp-action="Index"
+           class="btn btn-outline-secondary ms-2">
+            Cancel
+        </a>
+    </form>
+</div>
+```

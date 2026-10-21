@@ -1,22 +1,212 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+    --sf-background: #121116;
+    --sf-surface: #191720;
+    --sf-surface-raised: #211735;
+    --sf-border: #30263f;
+    --sf-purple: #8754e8;
+    --sf-purple-hover: #7544cf;
+    --sf-purple-light: #a779ff;
+    --sf-text: #f3eefb;
+    --sf-muted: #c7bfd5;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: var(--sf-background);
+    color: var(--sf-text);
 }
+
+a {
+    color: var(--sf-purple-light);
+}
+
+    a:hover {
+        color: #c4a8ff;
+    }
+
+.navbar {
+    background-color: var(--sf-surface) !important;
+    border-color: var(--sf-border) !important;
+}
+
+.navbar-brand,
+.nav-link {
+    color: var(--sf-text) !important;
+}
+
+    .nav-link:hover,
+    .navbar-brand:hover {
+        color: var(--sf-purple-light) !important;
+    }
+
+.navbar-toggler {
+    border-color: var(--sf-border);
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+.card {
+    background-color: var(--sf-surface);
+    color: var(--sf-text);
+    border: 1px solid var(--sf-border);
+}
+
+.table {
+    --bs-table-color: var(--sf-text);
+    --bs-table-bg: var(--sf-surface);
+    --bs-table-border-color: var(--sf-border);
+    --bs-table-striped-color: var(--sf-text);
+    --bs-table-striped-bg: #211d2a;
+    --bs-table-hover-color: var(--sf-text);
+    --bs-table-hover-bg: #292137;
+}
+
+.form-control,
+.form-select {
+    background-color: #211d2a;
+    color: var(--sf-text);
+    border-color: #493b5c;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        background-color: #211d2a;
+        color: var(--sf-text);
+        border-color: var(--sf-purple-light);
+        box-shadow: 0 0 0 0.2rem rgb(135 84 232 / 25%);
+    }
+
+    .form-control::placeholder {
+        color: #a99dbb;
+    }
+
+    .form-control:disabled,
+    .form-control[readonly] {
+        background-color: #30283b;
+        color: var(--sf-muted);
+    }
+
+.form-label {
+    color: var(--sf-text);
+}
+
+.form-text {
+    color: var(--sf-muted);
+}
+
+.form-check-input {
+    background-color: var(--sf-surface);
+    border-color: #79668f;
+}
+
+    .form-check-input:checked {
+        background-color: var(--sf-purple);
+        border-color: var(--sf-purple);
+    }
+
+.btn-primary,
+.btn-success {
+    background-color: var(--sf-purple);
+    border-color: var(--sf-purple);
+    color: #fff;
+}
+
+    .btn-primary:hover,
+    .btn-success:hover {
+        background-color: var(--sf-purple-hover);
+        border-color: var(--sf-purple-hover);
+        color: #fff;
+    }
+
+.btn-outline-primary,
+.btn-outline-secondary {
+    color: #d9c6ff;
+    border-color: #7952b5;
+}
+
+    .btn-outline-primary:hover,
+    .btn-outline-secondary:hover {
+        background-color: var(--sf-purple);
+        border-color: var(--sf-purple);
+        color: #fff;
+    }
+
+.btn-warning {
+    background-color: #c49a48;
+    border-color: #c49a48;
+    color: #171116;
+}
+
+.btn-danger {
+    background-color: #b94d69;
+    border-color: #b94d69;
+}
+
+    .btn-danger:hover {
+        background-color: #963b53;
+        border-color: #963b53;
+    }
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgb(167 121 255 / 35%);
+}
+
+.text-muted {
+    color: var(--sf-muted) !important;
+}
+
+.text-dark {
+    color: var(--sf-text) !important;
+}
+
+footer.footer {
+    background-color: var(--sf-surface);
+    border-color: var(--sf-border) !important;
+    color: var(--sf-muted);
+}
+
+.validation-summary-errors,
+.field-validation-error {
+    color: #ff8ca5;
+}
+
+.input-validation-error {
+    border-color: #ff6f91;
+}
+
+hr {
+    border-color: var(--sf-border);
+    opacity: 1;
+}
+
+.dropdown-menu {
+    background-color: var(--sf-surface);
+    border-color: var(--sf-border);
+}
+
+.dropdown-item {
+    color: var(--sf-text);
+}
+
+    .dropdown-item:hover {
+        background-color: var(--sf-surface-raised);
+        color: var(--sf-purple-light);
+    }

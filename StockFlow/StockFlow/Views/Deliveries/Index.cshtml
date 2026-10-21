@@ -1,36 +1,97 @@
-﻿@model IEnumerable<StockFlow.Models.Delivery>
-<h1>Deliveries</h1>
-@if (!Model.Any())
-{
-    <p>No deliveries have been recorded yet.</p>
+﻿```cshtml
+@model IEnumerable<StockFlow.Models.Delivery>
+
+@{
+    ViewData["Title"] = "Deliveries";
 }
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Supplier</th>
-                <th>Notes</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var delivery in Model)
-            {
-                <tr>
-                    <td>@delivery.DeliveryDate.ToShortDateString()</td>
-                    <td>@delivery.SupplierName</td>
-                    <td>@delivery.Notes</td>
-                    <td>
-                        <a asp-action="Details"
-                           asp-route-id="@delivery.Id"
-                           class="btn btn-info">
-                            Details
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+        <p class="text-uppercase fw-semibold mb-1"
+           style="color: #b99aff; letter-spacing: 3px;">
+            Every delivery, accounted for
+        </p>
+        <h1 class="display-5 fw-bold text-light mb-2">Delivery History</h1>
+        <p style="color: #c7bfd5;">
+            Keep track of what arrived, who supplied it, and when.
+        </p>
+    </div>
+
+    <a asp-controller="Deliveries" asp-action="Create"
+       class="btn btn-lg"
+       style="background-color: #8754e8; color: white; border: 1px solid #a779ff;">
+        + Record Delivery
+    </a>
+</div>
+
+<div class="card rounded-4 shadow-sm overflow-hidden"
+     style="background-color: #191720; border: 1px solid #30263f;">
+
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2 py-3"
+         style="background-color: #211735; border-bottom: 1px solid #49316b;">
+        <h5 class="mb-0 text-light">Recorded Deliveries</h5>
+        <span style="color: #c7bfd5;">
+            @Model.Count() @(Model.Count() == 1 ? "delivery" : "deliveries")
+        </span>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5 px-3">
+            <h4 class="text-light mb-2">Nothing delivered. Yet.</h4>
+            <p style="color: #c7bfd5;">
+                Your delivery history is empty. Record your first delivery to get things moving.
+            </p>
+            <a asp-controller="Deliveries" asp-action="Create"
+               class="btn mt-2"
+               style="background-color: #8754e8; color: white;">
+                Record First Delivery
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-4 py-3">Date</th>
+                        <th class="py-3">Supplier</th>
+                        <th class="py-3">Notes</th>
+                        <th class="py-3 text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var delivery in Model)
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                @delivery.DeliveryDate.ToString("dd MMM yyyy")
+                            </td>
+                            <td class="fw-semibold">@delivery.SupplierName</td>
+                            <td>
+                                @if (string.IsNullOrWhiteSpace(delivery.Notes))
+                                {
+                                    <span style="color: #a99dbb;">No notes</span>
+                                }
+                                else
+                                {
+                                    @delivery.Notes
+                                }
+                            </td>
+                            <td class="text-end pe-4">
+                                <a asp-controller="Deliveries"
+                                   asp-action="Details"
+                                   asp-route-id="@delivery.Id"
+                                   class="btn btn-sm btn-outline-secondary">
+                                    View Details →
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+```

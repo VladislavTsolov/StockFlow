@@ -1,40 +1,95 @@
-﻿@model StockFlow.Models.Delivery
-<h1>Delivery Details</h1>
-<div class="mb-4">
-    <p><strong>Date:</strong> @Model.DeliveryDate.ToShortDateString()</p>
-    <p><strong>Supplier:</strong> @Model.SupplierName</p>
+﻿```cshtml
+@model StockFlow.Models.Delivery
 
-    @if (!string.IsNullOrEmpty(Model.Notes))
+@{
+    ViewData["Title"] = "Delivery Details";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+        <p class="text-uppercase fw-semibold mb-1"
+           style="color: #b99aff; letter-spacing: 3px;">
+            Inbound stock record
+        </p>
+        <h1 class="display-5 fw-bold text-light mb-2">Delivery Details</h1>
+        <p style="color: #c7bfd5;">
+            The details behind this stock arrival.
+        </p>
+    </div>
+
+    <a asp-controller="Deliveries" asp-action="Index"
+       class="btn btn-outline-secondary">
+        ← Back to Deliveries
+    </a>
+</div>
+
+<div class="card rounded-4 shadow-sm p-4 mb-4"
+     style="background-color: #191720; border: 1px solid #30263f; max-width: 900px;">
+
+    <h5 class="text-light mb-3">Delivery Information</h5>
+
+    <dl class="row mb-0">
+        <dt class="col-sm-3 mb-2" style="color: #c7bfd5;">Delivery Date</dt>
+        <dd class="col-sm-9 mb-3 text-light">
+            @Model.DeliveryDate.ToString("dd MMMM yyyy")
+        </dd>
+
+        <dt class="col-sm-3 mb-2" style="color: #c7bfd5;">Supplier</dt>
+        <dd class="col-sm-9 mb-3 text-light">@Model.SupplierName</dd>
+
+        <dt class="col-sm-3 mb-2" style="color: #c7bfd5;">Notes</dt>
+        <dd class="col-sm-9 mb-0 text-light">
+            @(string.IsNullOrWhiteSpace(Model.Notes) ? "No notes provided." : Model.Notes)
+        </dd>
+    </dl>
+</div>
+
+<div class="card rounded-4 shadow-sm overflow-hidden mb-5"
+     style="background-color: #191720; border: 1px solid #30263f; max-width: 900px;">
+
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2 py-3"
+         style="background-color: #211735; border-bottom: 1px solid #49316b;">
+        <h5 class="text-light mb-0">Products Delivered</h5>
+        <span style="color: #c7bfd5;">
+            @ViewBag.Items.Count @(ViewBag.Items.Count == 1 ? "item" : "items")
+        </span>
+    </div>
+
+    @if (ViewBag.Items.Count == 0)
     {
-        <p><strong>Notes:</strong> @Model.Notes</p>
+        <div class="text-center py-5 px-3">
+            <h5 class="text-light mb-2">No products recorded</h5>
+            <p class="mb-0" style="color: #c7bfd5;">
+                No product quantities were recorded for this delivery.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-4 py-3">Product</th>
+                        <th class="py-3 text-end pe-4">Quantity Delivered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Items)
+                    {
+                        <tr>
+                            <td class="ps-4 fw-semibold">@item.Product.Name</td>
+                            <td class="text-end pe-4">
+                                <span class="badge rounded-pill"
+                                      style="background-color: #35234f; color: #d9c6ff; border: 1px solid #65458c;">
+                                    +@item.QuantityDelivered
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
 </div>
-<h3>Products Delivered</h3>
-
-
-@if (ViewBag.Items.Count == 0)
-{
-    <p>No products were recorded for this delivery.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity Delivered</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in ViewBag.Items)
-            {
-                <tr>
-                    <td>@item.Product.Name</td>
-                    <td>@item.QuantityDelivered</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-<a asp-action="Index" class="btn btn-secondary">Back to Deliveries</a>
+```

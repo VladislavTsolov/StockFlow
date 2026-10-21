@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StockFlow.Data;
 using StockFlow.Models;
 using StockFlow.Models.ViewModels;
-
+using System.Linq;
 
 namespace StockFlow.Controllers
 {
@@ -58,7 +58,7 @@ namespace StockFlow.Controllers
                 }).ToList()
             };
 
-            return View(viewModel);
+            return View("Create", viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -66,6 +66,16 @@ namespace StockFlow.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var products = await _context.Products.ToListAsync();
+
+                viewModel.Products = products.Select(p => new DeliveryProductViewModel
+                {
+                    ProductId = p.Id,
+                    ProductName = p.Name,
+                    Quantity = viewModel.Products?
+                        .FirstOrDefault(item => item.ProductId == p.Id)?.Quantity ?? 0
+                }).ToList();
+
                 return View(viewModel);
             }
 

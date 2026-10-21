@@ -1,8 +1,87 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="p-5 mb-4 rounded-4 shadow-sm"
+     style="background: linear-gradient(120deg, #211735, #171520); border: 1px solid #49316b;">
+    <div class="container-fluid py-3">
+        <p class="text-uppercase fw-semibold mb-2"
+           style="color: #b99aff; letter-spacing: 3px;">
+            Warehouse management, minus the chaos
+        </p>
+        <h1 class="display-4 fw-bold text-light mb-2">
+            StockFlow
+        </h1>
+
+        <h2 class="fs-3 fw-semibold">
+            Keep your stock in <span style="color: #a779ff;">flow.</span>
+        </h2>
+
+        <p class="fs-5 mt-3 mb-4" style="color: #c7bfd5; max-width: 700px;">
+            Know what's on your shelves, keep deliveries moving, and stop playing
+            guessing games with your inventory. Less chaos, more control.
+        </p>
+
+        <a asp-controller="Products" asp-action="Index"
+           class="btn btn-lg me-2 mb-2"
+           style="background-color: #8754e8; color: white; border: 1px solid #a779ff;">
+            Browse Inventory
+        </a>
+
+        <a asp-controller="Deliveries" asp-action="Index"
+           class="btn btn-lg mb-2"
+           style="color: #e0d0ff; border: 1px solid #7952b5;">
+            Delivery History
+        </a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card h-100 rounded-4"
+             style="background-color: #191720; border: 1px solid #30263f;">
+            <div class="card-body p-4">
+                <h3 class="card-title fw-bold text-light">📦 Product Inventory</h3>
+
+                <p style="color: #c7bfd5;">
+                    Every product has a place. Keep names, categories, prices and
+                    stock levels in check without digging through spreadsheets.
+                </p>
+
+                <p style="color: #a779ff;">
+                    Add it. Update it. Keep tabs on it.
+                </p>
+
+                <a asp-controller="Products" asp-action="Index"
+                   class="btn mt-2"
+                   style="background-color: #7544cf; color: white;">
+                    Manage Products →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card h-100 rounded-4"
+             style="background-color: #191720; border: 1px solid #30263f;">
+            <div class="card-body p-4">
+                <h3 class="card-title fw-bold text-light">🚚 Incoming Deliveries</h3>
+
+                <p style="color: #c7bfd5;">
+                    Stock just arrived? Log the supplier, record the quantities,
+                    and let StockFlow handle the stock update.
+                </p>
+
+                <p style="color: #a779ff;">
+                    Deliveries in. Stock updated. Easy.
+                </p>
+
+                <a asp-controller="Deliveries" asp-action="Create"
+                   class="btn mt-2"
+                   style="background-color: #7544cf; color: white;">
+                    Record a Delivery →
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
