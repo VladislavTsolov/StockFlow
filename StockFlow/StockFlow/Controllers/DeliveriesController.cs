@@ -71,8 +71,7 @@ namespace StockFlow.Controllers
                 {
                     ProductId = p.Id,
                     ProductName = p.Name,
-                    Quantity = viewModel.Products?
-                        .FirstOrDefault(item => item.ProductId == p.Id)?.Quantity ?? 0
+                    Quantity = viewModel.Products?.FirstOrDefault(item => item.ProductId == p.Id)?.Quantity ?? 0
                 }).ToList();
 
                 return View(viewModel);
@@ -122,6 +121,16 @@ namespace StockFlow.Controllers
                     _context.DeliveryItems.Add(deliveryItem);
 
                     product.QuantityInStock += item.Quantity;
+                    var stockTransaction = new StockTransaction
+                    {
+                        ProductId = product.Id,
+                        TransactionType = "Incoming",
+                        Quantity = item.Quantity,
+                        TransactionDate = DateTime.UtcNow,
+                        Description = "Stock received through delivery"
+                    };
+
+                    _context.StockTransactions.Add(stockTransaction);
                 }
             }
 

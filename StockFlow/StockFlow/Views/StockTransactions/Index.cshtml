@@ -1,0 +1,118 @@
+﻿@model IEnumerable<StockFlow.Models.StockTransaction>
+
+@{
+    ViewData["Title"] = "Stock Transactions";
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+    string searchString = ViewBag.SearchString ?? "";
+    string transactionType = ViewBag.TransactionType ?? "";
+}
+<div class="container mt-4">
+    <h2>Stock Transactions</h2>
+    <p class="text-muted">History of all inventory stock movements.</p>
+    <form asp-action="Index" method="get" class="row g-3 mb-4">
+        <div class="col-md-5">
+            <input type="text"
+                   name="searchString"
+                   value="@searchString"
+                   class="form-control"
+                   placeholder="Search by product name..." />
+        </div>
+
+        <div class="col-md-3">
+            <select name="transactionType" class="form-select">
+                <option value="">All transaction types</option>
+                <option value="Incoming" selected="@(transactionType == "Incoming")">Incoming</option>
+                <option value="Outgoing" selected="@(transactionType == "Outgoing")">Outgoing</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Search / Filter</button>
+            <a asp-action="Index" class="btn btn-secondary">Clear</a>
+        </div>
+    </form>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            No stock transactions match your search.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Product</th>
+                        <th>Transaction Type</th>
+                        <th>Quantity</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in Model)
+                    {
+                        <tr>
+                            <td>@transaction.Product?.Name</td>
+                            <td>
+                                @if (transaction.TransactionType == "Incoming")
+                                {
+                                    <span class="badge bg-success">Incoming</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">@transaction.TransactionType</span>
+                                }
+                            </td>
+                            <td>@transaction.Quantity</td>
+                            <td>@transaction.TransactionDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@transaction.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+            @if (totalPages > 1)
+        {
+            <nav aria-label="Stock transaction pages">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(currentPage - 1)"
+                           asp-route-searchString="@searchString"
+                           asp-route-transactionType="@transactionType">
+                            Previous
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a class="page-link"
+                               asp-action="Index"
+                               asp-route-page="@i"
+                               asp-route-searchString="@searchString"
+                               asp-route-transactionType="@transactionType">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(currentPage + 1)"
+                           asp-route-searchString="@searchString"
+                           asp-route-transactionType="@transactionType">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+</div>
