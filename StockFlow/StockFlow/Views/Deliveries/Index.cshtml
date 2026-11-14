@@ -68,7 +68,7 @@
                             <td class="ps-4">
                                 @delivery.DeliveryDate.ToString("dd MMM yyyy")
                             </td>
-                            <td class="fw-semibold">@delivery.SupplierName</td>
+                            <td class="fw-semibold">@delivery.Supplier.CompanyName</td>
                             <td>
                                 @if (string.IsNullOrWhiteSpace(delivery.Notes))
                                 {

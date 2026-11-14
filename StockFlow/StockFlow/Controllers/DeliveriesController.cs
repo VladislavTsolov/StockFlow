@@ -16,7 +16,7 @@ namespace StockFlow.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var deliveries = await _context.Deliveries.ToListAsync();
+            var deliveries = await _context.Deliveries.Include(d => d.Supplier).ToListAsync();
             return View(deliveries);
         }
         public async Task<IActionResult> Details(int? id)
@@ -26,8 +26,7 @@ namespace StockFlow.Controllers
                 return NotFound();
             }
 
-            var delivery = await _context.Deliveries
-                .FirstOrDefaultAsync(d => d.Id == id);
+            var delivery = await _context.Deliveries.Include(d => d.Supplier).FirstOrDefaultAsync(d => d.Id == id);
 
             if (delivery == null)
             {
@@ -79,10 +78,24 @@ namespace StockFlow.Controllers
                 return View(viewModel);
             }
 
+            var supplierName = viewModel.SupplierName.Trim();
+
+            var supplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.CompanyName == supplierName);
+
+            if (supplier == null)
+            {
+                supplier = new Supplier
+                {
+                    CompanyName = supplierName
+                };
+
+                _context.Suppliers.Add(supplier);
+            }
+
             var delivery = new Delivery
             {
                 DeliveryDate = viewModel.DeliveryDate,
-                SupplierName = viewModel.SupplierName,
+                Supplier = supplier,
                 Notes = viewModel.Notes
             };
 
